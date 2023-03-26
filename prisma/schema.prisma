@@ -6,12 +6,35 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mongodb"
     url      = env("DATABASE_URL")
 }
 
+model Categories {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    subCategories String[]
+    category      String
+}
+
+model Articles {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    title       String   @unique
+    Snippet     String
+    createdAt   DateTime @default(now())
+    category    String
+    subCategory String
+}
+
+model Summary {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    summary     String   @unique
+    createdAt   DateTime @default(now())
+    category    String
+    subCategory String
+}
+
 model Example {
-    id        String   @id @default(cuid())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
